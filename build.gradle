@@ -10,9 +10,14 @@ buildscript {
 	}
 }
 
+plugins {
+	id "org.sonarqube" version "2.6"
+}
+
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'maven'
 
 version = '1.0.0-SNAPSHOT'
 sourceCompatibility = 1.8
@@ -29,3 +34,15 @@ dependencies {
 	compile('de.codecentric:spring-boot-admin-server:1.5.3')
     compile('de.codecentric:spring-boot-admin-server-ui:1.5.3')
 }
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "https://artifactorypro.shared.pub.tds.tieto.com:443/artifactory/sandbox-maven")  {
+                authentication(userName: "espioraf", password: "Su3c1a99")
+            }
+        }
+    }
+}
+
+uploadArchives.dependsOn('assemble')
